@@ -1,0 +1,252 @@
+/**
+ * i18n — English (default) / Thai
+ */
+
+export type Lang = 'en' | 'th'
+export const LANGS: readonly Lang[] = ['en', 'th'] as const
+export const DEFAULT_LANG: Lang = 'en'
+
+export function isLang(value: unknown): value is Lang {
+  return value === 'en' || value === 'th'
+}
+
+type Vars = Record<string, string | number>
+
+const en: Record<string, string> = {
+  'app.subtitle': 'Match free pairs and clear the board',
+  'app.remaining': '{n} tiles left',
+  'app.remainingShort': '{n} left',
+  'app.footerStorage': "React + Vite · everything is stored in this browser's localStorage",
+  'app.footerVerified': 'Every deal is verified solvable before you play',
+  'app.confirmSwitch': 'Start a new {difficulty} board? Your current game will be lost.',
+  'action.startOver': 'Start over',
+  'action.keepPlaying': 'Keep playing',
+
+  'topbar.pause': 'Pause',
+  'topbar.resume': 'Resume',
+  'topbar.newGame': '+ New game',
+  'topbar.themeToLight': 'Switch to light theme',
+  'topbar.themeToDark': 'Switch to dark theme',
+  'topbar.langToThai': 'เปลี่ยนเป็นภาษาไทย',
+  'topbar.langToEnglish': 'Switch to English',
+  'topbar.difficultyLabel': 'Difficulty',
+  'topbar.themeLabel': 'Toggle theme',
+
+  'board.label': 'Mahjong solitaire board',
+  'board.tile': '{name}, column {col}, row {row}, layer {layer}',
+  'board.free': ', free',
+  'board.blocked': ', blocked',
+  'board.paused': 'Timer paused',
+  'board.blockedToast': 'That tile is blocked — clear the tiles on top or beside it first',
+  'board.empty': 'No tiles left on the board',
+
+  'tools.group': 'Helper tools',
+  'tools.hint': 'Hint',
+  'tools.shuffle': 'Shuffle',
+  'tools.undo': 'Undo',
+  'tools.hintTitle': 'Show a valid pair (H)',
+  'tools.shuffleTitle': 'Re-deal the remaining tiles',
+  'tools.undoTitle': 'Undo last pair (U)',
+  'tools.shuffleLeft': '{n} left',
+
+  'hint.title.pair': 'Pair found',
+  'hint.body.pair': '{a} and {b} are both free — tap them one by one to remove the pair.',
+  'hint.title.stuck': 'No moves left',
+  'hint.body.stuck':
+    'Every free tile has no partner. Shuffle the remaining tiles, or undo a move and try another order.',
+  'hint.used': '{n} hints used',
+  'hint.usedOne': '1 hint used',
+  'hint.notCounted': 'Not counted as a hint',
+  'hint.close': 'Close hint',
+  'hint.gotIt': 'Got it',
+
+  'side.board': 'This board',
+  'side.difficulty': 'Difficulty',
+  'side.tiles': 'Tiles',
+  'side.tilesValue': '{n} tiles',
+  'side.layers': 'Layers',
+  'side.layersValue': '{n} layers',
+  'side.verified': 'Verified',
+  'side.solvable': '✓ Solvable deal',
+  'side.stats': 'Stats on this device',
+  'side.statsNote': 'Best time · cleared/started',
+  'side.help': 'Help',
+  'side.shuffle': 'Shuffle remaining',
+  'side.restart': 'Restart this board',
+  'side.shuffleNote': 'Shuffling re-deals the remaining tiles — the board stays solvable.',
+  'side.settings': 'Settings',
+  'side.storage': 'Stored in localStorage',
+  'side.storageNote': '{n} items · {kb} KB — saved in this browser only, no server',
+  'side.clearStats': 'Clear stats',
+  'side.confirmClear': 'Confirm clear',
+  'side.cancel': 'Cancel',
+
+  'settings.dimCovered': 'Dim blocked tiles',
+  'settings.dimCoveredDesc': 'Fade tiles you cannot pick yet',
+  'settings.highlightMatch': 'Highlight matches',
+  'settings.highlightMatchDesc': 'When a tile is selected, mark its free partners',
+  'settings.language': 'Language',
+  'settings.languageDesc': 'English is the default',
+
+  'diff.easy': 'Easy',
+  'diff.medium': 'Medium',
+  'diff.hard': 'Hard',
+  'blurb.easy': '{tiles} tiles · {layers} layers · quick to clear',
+  'blurb.medium': '{tiles} tiles · {layers} layers · a steady climb',
+  'blurb.hard': '{tiles} tiles · {layers} layers · full pyramid',
+
+  'tile.dots': '{n} Dots',
+  'tile.bamboo': '{n} Bamboo',
+  'tile.chars': '{n} Characters',
+  'tile.wind.1': 'East Wind',
+  'tile.wind.2': 'South Wind',
+  'tile.wind.3': 'West Wind',
+  'tile.wind.4': 'North Wind',
+  'tile.dragon.1': 'Red Dragon',
+  'tile.dragon.2': 'Green Dragon',
+  'tile.dragon.3': 'White Dragon',
+  'tile.flower': 'Flower',
+  'tile.season': 'Season',
+
+  'win.title': 'Board cleared!',
+  'win.sub': '{difficulty} · {tiles} tiles',
+  'win.time': 'Time',
+  'win.hints': 'Hints',
+  'win.shuffles': 'Shuffles',
+  'win.again': 'Play another',
+  'win.viewBoard': 'View cleared board',
+  'win.stars': '{n} of 3 stars',
+
+  'toast.cleared': 'Board cleared! 🎉',
+  'toast.restarted': 'Board restarted',
+  'toast.shuffled': 'Tiles shuffled — {n} left',
+  'toast.noMoves': 'No moves left — shuffle or undo',
+  'toast.noShuffles': 'No shuffles left — try undo',
+  'toast.statsCleared': 'Stats cleared',
+  'toast.undone': 'Move undone',
+  'toast.hintNoPair': 'No matching pair available',
+}
+
+const th: Record<string, string> = {
+  'app.subtitle': 'จับคู่ไพ่ที่หยิบได้ให้หมดกระดาน',
+  'app.remaining': 'เหลือ {n} ใบ',
+  'app.remainingShort': 'เหลือ {n}',
+  'app.footerStorage': 'React + Vite · ข้อมูลทั้งหมดเก็บใน localStorage ของเครื่องนี้',
+  'app.footerVerified': 'ทุกกระดานผ่านการตรวจสอบว่ามีทางแก้จริงก่อนให้เล่น',
+  'app.confirmSwitch': 'เริ่มเกมใหม่ระดับ{difficulty}? เกมที่เล่นอยู่จะหายไป',
+  'action.startOver': 'เริ่มใหม่',
+  'action.keepPlaying': 'เล่นต่อ',
+
+  'topbar.pause': 'หยุด',
+  'topbar.resume': 'เล่นต่อ',
+  'topbar.newGame': '+ เกมใหม่',
+  'topbar.themeToLight': 'เปลี่ยนเป็นธีมสว่าง',
+  'topbar.themeToDark': 'เปลี่ยนเป็นธีมมืด',
+  'topbar.langToThai': 'เปลี่ยนเป็นภาษาไทย',
+  'topbar.langToEnglish': 'Switch to English',
+  'topbar.difficultyLabel': 'ระดับความยาก',
+  'topbar.themeLabel': 'สลับธีม',
+
+  'board.label': 'กระดานไพ่หยิบคู่',
+  'board.tile': '{name} คอลัมน์ {col} แถว {row} ชั้น {layer}',
+  'board.free': ' หยิบได้',
+  'board.blocked': ' หยิบไม่ได้',
+  'board.paused': 'หยุดเวลาไว้แล้ว',
+  'board.blockedToast': 'ไพ่ใบนี้หยิบไม่ได้ — ต้องเก็บไพ่ที่ทับอยู่หรือไพ่ข้างที่กั้นก่อน',
+  'board.empty': 'ไม่มีไพ่เหลือบนกระดาน',
+
+  'tools.group': 'เครื่องมือช่วยเล่น',
+  'tools.hint': 'คำใบ้',
+  'tools.shuffle': 'สลับไพ่',
+  'tools.undo': 'ย้อนกลับ',
+  'tools.hintTitle': 'หาคู่ที่หยิบได้ (H)',
+  'tools.shuffleTitle': 'สลับไพ่ที่เหลือใหม่',
+  'tools.undoTitle': 'ย้อนคู่ล่าสุด (U)',
+  'tools.shuffleLeft': 'เหลือ {n}',
+
+  'hint.title.pair': 'เจอคู่แล้ว',
+  'hint.body.pair': 'ไพ่ {a} กับ {b} หยิบได้ทั้งคู่ — กดทีละใบเพื่อเก็บ',
+  'hint.title.stuck': 'ไม่มีคู่ให้เก็บแล้ว',
+  'hint.body.stuck': 'ไพ่ที่หยิบได้ตอนนี้ไม่มีคู่ตรงกัน — กดสลับไพ่ที่เหลือ หรือย้อนกลับไปลองลำดับใหม่',
+  'hint.used': 'ใช้คำใบ้ไปแล้ว {n} ครั้ง',
+  'hint.usedOne': 'ใช้คำใบ้ไปแล้ว 1 ครั้ง',
+  'hint.notCounted': 'ยังไม่นับเป็นการใช้คำใบ้',
+  'hint.close': 'ปิดคำใบ้',
+  'hint.gotIt': 'เข้าใจแล้ว',
+
+  'side.board': 'กระดานนี้',
+  'side.difficulty': 'ระดับ',
+  'side.tiles': 'จำนวนไพ่',
+  'side.tilesValue': '{n} ใบ',
+  'side.layers': 'จำนวนชั้น',
+  'side.layersValue': '{n} ชั้น',
+  'side.verified': 'ตรวจสอบแล้ว',
+  'side.solvable': '✓ มีทางแก้จริง',
+  'side.stats': 'สถิติในเครื่องนี้',
+  'side.statsNote': 'เวลาที่ดีที่สุด · จำนวนที่เก็บหมด/เริ่มเล่น',
+  'side.help': 'ช่วยเหลือ',
+  'side.shuffle': 'สลับไพ่ที่เหลือ',
+  'side.restart': 'เริ่มกระดานนี้ใหม่',
+  'side.shuffleNote': 'การสลับไพ่จะแจกไพ่ที่เหลือใหม่ โดยยังรับประกันว่ากระดานแก้ได้',
+  'side.settings': 'การตั้งค่า',
+  'side.storage': 'ข้อมูลใน localStorage',
+  'side.storageNote': '{n} รายการ · {kb} KB — เก็บในเบราว์เซอร์นี้เท่านั้น ไม่มีเซิร์ฟเวอร์',
+  'side.clearStats': 'ล้างสถิติ',
+  'side.confirmClear': 'ยืนยันล้างสถิติ',
+  'side.cancel': 'ยกเลิก',
+
+  'settings.dimCovered': 'หรี่ไพ่ที่หยิบไม่ได้',
+  'settings.dimCoveredDesc': 'ไพ่ที่ยังหยิบไม่ได้จะจางลง',
+  'settings.highlightMatch': 'ไฮไลต์คู่ที่ตรงกัน',
+  'settings.highlightMatchDesc': 'เลือกไพ่แล้ว ไพ่คู่ที่หยิบได้จะถูกไฮไลต์',
+  'settings.language': 'ภาษา',
+  'settings.languageDesc': 'ค่าเริ่มต้นคือภาษาอังกฤษ',
+
+  'diff.easy': 'ง่าย',
+  'diff.medium': 'ปานกลาง',
+  'diff.hard': 'ยาก',
+  'blurb.easy': '{tiles} ใบ · {layers} ชั้น · เล่นจบไว',
+  'blurb.medium': '{tiles} ใบ · {layers} ชั้น · ไล่เก็บสบาย ๆ',
+  'blurb.hard': '{tiles} ใบ · {layers} ชั้น · พีระมิดเต็ม',
+
+  'tile.dots': '筒 {n}',
+  'tile.bamboo': '索 {n}',
+  'tile.chars': '萬 {n}',
+  'tile.wind.1': 'ลมตะวันออก',
+  'tile.wind.2': 'ลมใต้',
+  'tile.wind.3': 'ลมตะวันตก',
+  'tile.wind.4': 'ลมเหนือ',
+  'tile.dragon.1': 'มังกรแดง',
+  'tile.dragon.2': 'มังกรเขียว',
+  'tile.dragon.3': 'มังกรขาว',
+  'tile.flower': 'ดอกไม้',
+  'tile.season': 'ฤดู',
+
+  'win.title': 'เก็บไพ่หมดแล้ว!',
+  'win.sub': '{difficulty} · {tiles} ใบ',
+  'win.time': 'เวลา',
+  'win.hints': 'คำใบ้',
+  'win.shuffles': 'สลับไพ่',
+  'win.again': 'เล่นอีกกระดาน',
+  'win.viewBoard': 'ดูกระดานที่เก็บหมด',
+  'win.stars': '{n} ดาวจาก 3',
+
+  'toast.cleared': 'เก็บไพ่หมดแล้ว! 🎉',
+  'toast.restarted': 'เริ่มกระดานนี้ใหม่แล้ว',
+  'toast.shuffled': 'สลับไพ่แล้ว — เหลือ {n} ใบ',
+  'toast.noMoves': 'ไม่มีคู่ให้เก็บแล้ว — สลับไพ่หรือย้อนกลับ',
+  'toast.noShuffles': 'สลับไพ่ครบแล้ว — ลองย้อนกลับ',
+  'toast.statsCleared': 'ล้างสถิติแล้ว',
+  'toast.undone': 'ย้อนคู่ล่าสุดแล้ว',
+  'toast.hintNoPair': 'ยังไม่มีคู่ที่ตรงกันให้เก็บ',
+}
+
+const DICT: Record<Lang, Record<string, string>> = { en, th }
+
+export function t(lang: Lang, key: string, vars?: Vars): string {
+  const raw = DICT[lang]?.[key] ?? DICT.en[key] ?? key
+  if (!vars) return raw
+  return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
+    vars[name] === undefined ? match : String(vars[name]),
+  )
+}
