@@ -5,7 +5,7 @@ import type { Lang } from '../lib/i18n'
 interface ToolbarProps {
   canUndo: boolean
   disabled: boolean
-  shufflesLeft: number
+  shufflesUsed: number
   hintDisabled?: boolean
   lang: Lang
   onHint: () => void
@@ -16,7 +16,7 @@ interface ToolbarProps {
 export function Toolbar({
   canUndo,
   disabled,
-  shufflesLeft,
+  shufflesUsed,
   lang,
   onHint,
   onShuffle,
@@ -41,14 +41,14 @@ export function Toolbar({
         type="button"
         className="tool"
         onClick={onShuffle}
-        disabled={disabled || shufflesLeft <= 0}
-        title={t(lang, 'tools.shuffleTitle')}
+        disabled={disabled}
+        title={t(lang, 'tools.shuffleTitle', { n: shufflesUsed })}
       >
         <span className="tool-icon" aria-hidden="true">
           🔀
         </span>
         <span className="tool-label">{t(lang, 'tools.shuffle')}</span>
-        <span className="tool-badge">{shufflesLeft}</span>
+        {shufflesUsed > 0 && <span className="tool-badge">{shufflesUsed}</span>}
       </button>
 
       <button

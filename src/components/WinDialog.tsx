@@ -17,7 +17,7 @@ interface WinDialogProps {
 
 function starsFor(hints: number, shuffles: number): number {
   if (hints === 0 && shuffles === 0) return 3
-  if (hints <= 3 && shuffles <= 1) return 2
+  if (hints <= 3 && shuffles <= 2) return 2
   return 1
 }
 

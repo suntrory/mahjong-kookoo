@@ -15,9 +15,10 @@ npm run verify     # engine test suite (deal + witness + shuffle)
 ## Features
 
 - **3 levels** — Easy 72 tiles / 2 layers · Medium 104 / 3 · Hard 144 / 4
+- Stars: 3★ = no hints and no shuffles · 2★ = ≤3 hints and ≤2 shuffles · otherwise 1★
 - **Help system**
   - **Hint** highlights a valid pair and names both tiles with board positions
-  - **Shuffle** (3 per game) re-deals the remaining tiles and **keeps the board solvable**
+  - **Shuffle** (unlimited, counted) re-deals the remaining tiles and **keeps the board solvable** — the badge shows how many times you used it
   - **Undo**, automatic dead-end detection ("no moves left"), blocked-tile feedback
   - Match highlighting, dimmed blocked tiles
 - **Verified deals** — boards are built *backwards* (removing free pairs from a full layout), so the removal order is a real solution; that witness is replayed on the final board before the game starts

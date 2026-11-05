@@ -14,7 +14,7 @@ interface SidePanelProps {
   stats: StatsStore
   settings: Settings
   lang: Lang
-  shufflesLeft: number
+  shufflesUsed: number
   onChangeSettings: (patch: Partial<Settings>) => void
   onClearStats: () => void
   onRestart: () => void
@@ -58,7 +58,7 @@ export function SidePanel({
   stats,
   settings,
   lang,
-  shufflesLeft,
+  shufflesUsed,
   onChangeSettings,
   onClearStats,
   onRestart,
@@ -137,14 +137,13 @@ export function SidePanel({
           type="button"
           className="btn btn--soft btn--block"
           onClick={onShuffle}
-          disabled={shufflesLeft <= 0}
         >
-          {t(lang, 'side.shuffle')} · {shufflesLeft}
+          {t(lang, 'side.shuffle')}
         </button>
         <button type="button" className="btn btn--ghost btn--block" onClick={onRestart}>
           {t(lang, 'side.restart')}
         </button>
-        <p className="panel-note">{t(lang, 'side.shuffleNote')}</p>
+        <p className="panel-note">{t(lang, 'side.shuffleNote', { n: shufflesUsed })}</p>
       </section>
 
       <section className="panel-card">

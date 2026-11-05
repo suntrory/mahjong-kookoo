@@ -9,7 +9,6 @@ import { DIFFICULTY_META, remainingCount } from './lib/mahjong'
 import type { Difficulty } from './lib/mahjong'
 import { applyTheme, loadTheme, saveTheme } from './lib/theme'
 import type { Theme } from './lib/theme'
-import { MAX_SHUFFLES } from './lib/storage'
 import { t } from './lib/i18n'
 
 export default function App() {
@@ -31,7 +30,7 @@ export default function App() {
 
   const { hint, shuffle, undo, select, dismissToast } = actions
   const remaining = remainingCount(state.removed)
-  const shufflesLeft = Math.max(0, MAX_SHUFFLES - state.shufflesUsed)
+  const shufflesUsed = state.shufflesUsed
   const won = state.status === 'won'
   const locked = won || state.paused
 
@@ -183,7 +182,7 @@ export default function App() {
             <Toolbar
               canUndo={state.history.length > 0}
               disabled={locked}
-              shufflesLeft={shufflesLeft}
+              shufflesUsed={shufflesUsed}
               lang={lang}
               onHint={hint}
               onShuffle={shuffle}
@@ -204,7 +203,7 @@ export default function App() {
             stats={state.stats}
             settings={state.settings}
             lang={lang}
-            shufflesLeft={shufflesLeft}
+            shufflesUsed={shufflesUsed}
             onChangeSettings={actions.updateSettings}
             onClearStats={actions.clearStats}
             onRestart={actions.restart}

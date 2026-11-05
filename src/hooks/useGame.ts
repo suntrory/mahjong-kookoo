@@ -13,7 +13,6 @@ import { TILE_TYPES } from '../lib/mahjong'
 import { tileNameKey } from '../lib/tiles'
 import { t } from '../lib/i18n'
 import {
-  MAX_SHUFFLES,
   clearGame,
   defaultStatsStore,
   loadGame,
@@ -280,9 +279,6 @@ function reducer(state: GameState, action: Action): GameState {
 
     case 'shuffle': {
       if (state.status !== 'playing') return state
-      if (state.shufflesUsed >= MAX_SHUFFLES) {
-        return { ...state, toast: { text: t(lang, 'toast.noShuffles'), tone: 'bad' } }
-      }
       try {
         const result = shuffleRemaining(state.puzzle, state.removed)
         const puzzle: Puzzle = { ...state.puzzle, tiles: result.tiles, witness: result.witness }
