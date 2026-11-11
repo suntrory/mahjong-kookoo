@@ -23,7 +23,7 @@ import {
   saveStats,
 } from '../lib/storage'
 import type { GameSnapshot, Settings, StatsStore } from '../lib/storage'
-
+//manner
 export interface Toast {
   text: string
   tone: 'info' | 'good' | 'bad'
