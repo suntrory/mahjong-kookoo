@@ -1,22 +1,25 @@
 {
   "name": "mahjong-kookoo",
   "private": true,
-  "version": "1.0.0",
-  "description": "Mahjong Solitaire — 3 difficulty levels, hints, verified solvable deals, EN/TH, localStorage",
+  "version": "2.0.0",
+  "description": "Mahjong Solitaire on Vinext — 3 difficulty levels, hints, verified solvable deals, EN/TH, localStorage",
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "vite dev",
+    "build": "tsc --noEmit && vite build",
+    "start": "vinext start",
     "lint": "oxlint",
-    "verify": "node --experimental-strip-types scripts/verify.ts",
-    "preview": "vite preview"
+    "verify": "node --experimental-strip-types scripts/verify.ts"
   },
   "dependencies": {
+    "@vitejs/plugin-rsc": "^0.5.39",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-server-dom-webpack": "^19.3.1",
+    "vinext": "^1.4.5"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

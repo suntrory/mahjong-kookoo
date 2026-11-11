@@ -1,14 +1,17 @@
-# Mahjong Solitaire — React + Vite
+# Mahjong Solitaire — Vinext (React 19 + Vite)
 
 A Mahjong Solitaire game with three difficulty levels, hints, shuffles, and **every deal verified to be solvable before you play**. Bilingual English/Thai (English default), dark & light themes, all state in `localStorage` — no backend.
+
+Built on [Vinext](https://vinext.dev/) (the Next.js App Router API running on Vite). The page shell is server-rendered; the game itself is a client component that mounts in the browser.
 
 เกมไพ่หยิบคู่ (Mahjong Solitaire) 3 ระดับ พร้อมระบบช่วยเหลือ และ **ตรวจสอบทุกกระดานว่ามีทางแก้จริง** ก่อนให้เล่น — ข้อมูลทั้งหมดเก็บใน `localStorage`
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # production build → dist/
-npm run preview    # serve dist/
+npm run build      # typecheck + production build → dist/ (standalone server in dist/standalone/)
+npm run start      # serve the production build (vinext start)
+npm run lint       # oxlint
 npm run verify     # engine test suite (deal + witness + shuffle)
 ```
 
@@ -30,13 +33,19 @@ npm run verify     # engine test suite (deal + witness + shuffle)
 ## Structure
 
 ```
+app/layout.tsx        root layout: metadata, fonts, pre-paint theme script
+app/page.tsx          the single route — renders the game
+app/globals.css       design tokens + all styles ("tea-house table": felt, walnut rail, bone tiles)
+app/healthz/route.ts  health check used by Docker
+next.config.ts        output: 'standalone' + security headers
+vite.config.ts        vinext() plugin
 src/lib/mahjong.ts    engine: layouts, tile set, reverse deal, free/covered rules, witness verify, shuffle
 src/lib/tiles.ts      tile naming + faces (dots / bamboo / characters / winds / dragons / flower / season)
 src/lib/i18n.ts       EN/TH dictionary + t() (DEFAULT_LANG = 'en')
 src/lib/theme.ts      dark/light theme (data-theme + localStorage)
 src/lib/storage.ts    localStorage schema + validation on load (replays the move history)
 src/hooks/useGame.ts  reducer: select/match, hint, shuffle, undo, timer, persistence
-src/components/       Board (absolute-positioned 3D-ish tiles), TopBar, Toolbar, HintCard, SidePanel, WinDialog
+src/components/       GameClient (browser-only mount), Game, Board (stacked 3D tiles), TopBar, Toolbar, HintCard, SidePanel, WinDialog, Icons
 scripts/verify.ts     engine test suite
 ```
 
@@ -76,7 +85,7 @@ docker compose logs -f mahjong-web
 docker compose down
 ```
 
-- Multi-stage: `node:22-alpine` (build) → `nginxinc/nginx-unprivileged:1.27-alpine` (uid 101, port 8080)
+- Multi-stage: `node:22-alpine` (build) → `node:22-alpine` running `dist/standalone/server.js` as user `node` (port 8080)
 - Hardening: `read_only` rootfs + tmpfs, `no-new-privileges`, healthcheck on `/healthz`
 - nginx: gzip, 1-year cache for `/assets/*`, no-cache for `index.html`, SPA fallback, CSP + security headers
 

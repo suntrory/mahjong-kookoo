@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# tooling
+.serena
+
+# vinext
+.next
+.vinext
+next-env.d.ts

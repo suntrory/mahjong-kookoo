@@ -7,7 +7,7 @@ import type { CSSProperties } from 'react'
 export type Theme = 'light' | 'dark'
 
 const THEME_KEY = 'mahjong.v1.theme'
-const THEME_COLOR: Record<Theme, string> = { dark: '#0b0f17', light: '#f4f1ea' }
+const THEME_COLOR: Record<Theme, string> = { dark: '#0e1512', light: '#efe9dc' }
 
 function systemTheme(): Theme {
   try {

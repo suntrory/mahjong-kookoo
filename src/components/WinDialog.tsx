@@ -1,6 +1,5 @@
-import { DIFFICULTY_META, formatTime } from '../lib/mahjong'
+import { formatTime } from '../lib/mahjong'
 import type { Difficulty } from '../lib/mahjong'
-import { accentInk } from '../lib/theme'
 import { t } from '../lib/i18n'
 import type { Lang } from '../lib/i18n'
 
@@ -31,14 +30,15 @@ export function WinDialog({
   onAgain,
   onClose,
 }: WinDialogProps) {
-  const meta = DIFFICULTY_META[difficulty]
   const stars = starsFor(hints, shuffles)
 
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="win-title">
       <div className="modal">
-        <div className="modal-glow" aria-hidden="true" />
-        <div className="win-stars" aria-label={t(lang, 'win.stars', { n: stars })}>
+        <span className="modal-seal" aria-hidden="true">
+          發
+        </span>
+        <div className="win-stars" role="img" aria-label={t(lang, 'win.stars', { n: stars })}>
           {[1, 2, 3].map((s) => (
             <span key={s} className={`star${s <= stars ? ' star--on' : ''}`} aria-hidden="true">
               ★
@@ -48,24 +48,24 @@ export function WinDialog({
         <h2 id="win-title" className="modal-title">
           {t(lang, 'win.title')}
         </h2>
-        <p className="modal-sub accent-ink" style={accentInk(meta.accent)}>
+        <p className="modal-sub">
           {t(lang, 'win.sub', { difficulty: t(lang, `diff.${difficulty}`), tiles })}
         </p>
 
-        <div className="win-grid">
+        <dl className="win-grid">
           <div className="win-stat">
-            <span className="win-stat-key">{t(lang, 'win.time')}</span>
-            <span className="win-stat-value">{formatTime(elapsed)}</span>
+            <dt>{t(lang, 'win.time')}</dt>
+            <dd>{formatTime(elapsed)}</dd>
           </div>
           <div className="win-stat">
-            <span className="win-stat-key">{t(lang, 'win.hints')}</span>
-            <span className="win-stat-value">{hints}</span>
+            <dt>{t(lang, 'win.hints')}</dt>
+            <dd>{hints}</dd>
           </div>
           <div className="win-stat">
-            <span className="win-stat-key">{t(lang, 'win.shuffles')}</span>
-            <span className="win-stat-value">{shuffles}</span>
+            <dt>{t(lang, 'win.shuffles')}</dt>
+            <dd>{shuffles}</dd>
           </div>
-        </div>
+        </dl>
 
         <div className="modal-actions">
           <button type="button" className="btn btn--primary" onClick={onAgain}>
