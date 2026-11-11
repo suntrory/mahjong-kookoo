@@ -1,29 +1,21 @@
 import type { Hint } from '../hooks/useGame'
 import { t } from '../lib/i18n'
 import type { Lang } from '../lib/i18n'
+import { Icon } from './Icons'
 
 interface ToolbarProps {
   canUndo: boolean
   disabled: boolean
   shufflesUsed: number
-  hintDisabled?: boolean
   lang: Lang
   onHint: () => void
   onShuffle: () => void
   onUndo: () => void
 }
 
-export function Toolbar({
-  canUndo,
-  disabled,
-  shufflesUsed,
-  lang,
-  onHint,
-  onShuffle,
-  onUndo,
-}: ToolbarProps) {
+export function Toolbar({ canUndo, disabled, shufflesUsed, lang, onHint, onShuffle, onUndo }: ToolbarProps) {
   return (
-    <div className="tools" role="group" aria-label={t(lang, 'tools.group')}>
+    <div className="dock" role="group" aria-label={t(lang, 'tools.group')}>
       <button
         type="button"
         className="tool tool--hint"
@@ -31,10 +23,9 @@ export function Toolbar({
         disabled={disabled}
         title={t(lang, 'tools.hintTitle')}
       >
-        <span className="tool-icon" aria-hidden="true">
-          💡
-        </span>
+        <Icon name="hint" size={20} />
         <span className="tool-label">{t(lang, 'tools.hint')}</span>
+        <kbd className="tool-key">H</kbd>
       </button>
 
       <button
@@ -44,11 +35,13 @@ export function Toolbar({
         disabled={disabled}
         title={t(lang, 'tools.shuffleTitle', { n: shufflesUsed })}
       >
-        <span className="tool-icon" aria-hidden="true">
-          🔀
-        </span>
+        <Icon name="shuffle" size={20} />
         <span className="tool-label">{t(lang, 'tools.shuffle')}</span>
-        {shufflesUsed > 0 && <span className="tool-badge">{shufflesUsed}</span>}
+        {shufflesUsed > 0 ? (
+          <span className="tool-badge">{shufflesUsed}</span>
+        ) : (
+          <kbd className="tool-key">S</kbd>
+        )}
       </button>
 
       <button
@@ -58,10 +51,9 @@ export function Toolbar({
         disabled={disabled || !canUndo}
         title={t(lang, 'tools.undoTitle')}
       >
-        <span className="tool-icon" aria-hidden="true">
-          ↩️
-        </span>
+        <Icon name="undo" size={20} />
         <span className="tool-label">{t(lang, 'tools.undo')}</span>
+        <kbd className="tool-key">U</kbd>
       </button>
     </div>
   )
@@ -76,32 +68,25 @@ interface HintCardProps {
 
 export function HintCard({ hint, hintsUsed, lang, onDismiss }: HintCardProps) {
   return (
-    <div className={`hint-card hint-card--${hint.kind}`} role="status" aria-live="polite">
-      <div className="hint-head">
-        <span className="hint-icon" aria-hidden="true">
-          {hint.kind === 'stuck' ? '🧠' : '💡'}
+    <div className={`slip slip--${hint.kind}`} role="status" aria-live="polite">
+      <span className="slip-icon">
+        <Icon name={hint.kind === 'stuck' ? 'alert' : 'hint'} size={20} />
+      </span>
+      <div className="slip-text">
+        <strong>{hint.title}</strong>
+        <p className="slip-body">{hint.body}</p>
+        <span className="slip-sub">
+          {t(lang, hintsUsed === 1 ? 'hint.usedOne' : 'hint.used', { n: hintsUsed })}
         </span>
-        <div className="hint-titles">
-          <strong>{hint.title}</strong>
-          <span className="hint-sub">
-            {t(lang, hintsUsed === 1 ? 'hint.usedOne' : 'hint.used', { n: hintsUsed })}
-          </span>
-        </div>
-        <button
-          type="button"
-          className="hint-close"
-          onClick={onDismiss}
-          aria-label={t(lang, 'hint.close')}
-        >
-          ×
-        </button>
       </div>
-      <p className="hint-body">{hint.body}</p>
-      <div className="hint-actions">
-        <button type="button" className="btn btn--ghost btn--sm" onClick={onDismiss}>
-          {t(lang, 'hint.gotIt')}
-        </button>
-      </div>
+      <button
+        type="button"
+        className="icon-btn icon-btn--bare"
+        onClick={onDismiss}
+        aria-label={t(lang, 'hint.close')}
+      >
+        <Icon name="close" size={16} />
+      </button>
     </div>
   )
 }

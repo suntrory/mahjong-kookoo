@@ -1,13 +1,12 @@
-import type { CSSProperties } from 'react'
-import { DIFFICULTIES, DIFFICULTY_META, formatTime } from '../lib/mahjong'
+import { DIFFICULTIES, DIFFICULTY_META } from '../lib/mahjong'
 import type { Difficulty } from '../lib/mahjong'
 import type { Theme } from '../lib/theme'
 import { t } from '../lib/i18n'
 import type { Lang } from '../lib/i18n'
+import { Icon } from './Icons'
 
 interface TopBarProps {
   difficulty: Difficulty
-  elapsed: number
   paused: boolean
   status: 'playing' | 'won'
   theme: Theme
@@ -18,9 +17,10 @@ interface TopBarProps {
   onToggleLang: () => void
 }
 
+const NUMERALS: Record<Difficulty, string> = { easy: '一', medium: '二', hard: '三' }
+
 export function TopBar({
   difficulty,
-  elapsed,
   paused,
   status,
   theme,
@@ -32,11 +32,12 @@ export function TopBar({
 }: TopBarProps) {
   const nextThemeLabel = t(lang, theme === 'dark' ? 'topbar.themeToLight' : 'topbar.themeToDark')
   const nextLangLabel = t(lang, lang === 'en' ? 'topbar.langToThai' : 'topbar.langToEnglish')
+  const pauseLabel = t(lang, paused ? 'topbar.resume' : 'topbar.pause')
 
   return (
-    <header className="app-header">
+    <header className="masthead">
       <div className="brand">
-        <span className="brand-mark" aria-hidden="true">
+        <span className="seal" aria-hidden="true">
           中
         </span>
         <div className="brand-text">
@@ -45,25 +46,46 @@ export function TopBar({
         </div>
       </div>
 
-      <div className="header-actions">
-        <div className="timer" aria-live="off">
-          <span className="timer-icon" aria-hidden="true">
-            ⏱
-          </span>
-          <span className="timer-value">{formatTime(elapsed)}</span>
-        </div>
+      <nav className="levels" role="tablist" aria-label={t(lang, 'topbar.difficultyLabel')}>
+        {DIFFICULTIES.map((d) => {
+          const meta = DIFFICULTY_META[d]
+          const active = d === difficulty
+          return (
+            <button
+              key={d}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              data-difficulty={d}
+              className={`level${active ? ' level--active' : ''}`}
+              title={t(lang, `blurb.${d}`, { tiles: meta.tiles, layers: meta.layers })}
+              onClick={() => onNewGame(d)}
+            >
+              <span className="level-numeral" aria-hidden="true">
+                {NUMERALS[d]}
+              </span>
+              <span className="level-text">
+                <span className="level-name">{lang === 'th' ? meta.labelTh : meta.labelEn}</span>
+                <span className="level-meta">{t(lang, 'side.tilesValue', { n: meta.tiles })}</span>
+              </span>
+            </button>
+          )
+        })}
+      </nav>
+
+      <div className="controls">
         <button
           type="button"
-          className="btn btn--ghost theme-toggle"
+          className="icon-btn theme-toggle"
           onClick={onToggleTheme}
           aria-label={nextThemeLabel}
           title={nextThemeLabel}
         >
-          {theme === 'dark' ? '☀' : '☾'}
+          <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
         </button>
         <button
           type="button"
-          className="btn btn--ghost lang-toggle"
+          className="icon-btn lang-toggle"
           onClick={onToggleLang}
           aria-label={nextLangLabel}
           title={nextLangLabel}
@@ -72,58 +94,18 @@ export function TopBar({
         </button>
         <button
           type="button"
-          className="btn btn--ghost"
+          className="icon-btn"
           onClick={onTogglePause}
           disabled={status === 'won'}
-          aria-label={t(lang, paused ? 'topbar.resume' : 'topbar.pause')}
+          aria-label={pauseLabel}
+          title={`${pauseLabel} (P)`}
         >
-          {paused ? `▶ ${t(lang, 'topbar.resume')}` : `⏸ ${t(lang, 'topbar.pause')}`}
+          <Icon name={paused ? 'play' : 'pause'} />
         </button>
         <button type="button" className="btn btn--primary" onClick={() => onNewGame(difficulty)}>
           {t(lang, 'topbar.newGame')}
         </button>
       </div>
     </header>
-  )
-}
-
-interface DifficultyPickerProps {
-  current: Difficulty
-  lang: Lang
-  onPick: (difficulty: Difficulty) => void
-}
-
-export function DifficultyPicker({ current, lang, onPick }: DifficultyPickerProps) {
-  return (
-    <div className="difficulty">
-      <div className="segmented" role="tablist" aria-label={t(lang, 'topbar.difficultyLabel')}>
-        {DIFFICULTIES.map((d) => {
-          const meta = DIFFICULTY_META[d]
-          const active = d === current
-          return (
-            <button
-              key={d}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              data-difficulty={d}
-              className={`seg-btn${active ? ' seg-btn--active' : ''}`}
-              style={active ? ({ '--seg-accent': meta.accent } as CSSProperties) : undefined}
-              onClick={() => onPick(d)}
-            >
-              <span className="seg-dot" style={{ background: meta.accent }} aria-hidden="true" />
-              {lang === 'th' ? meta.labelTh : meta.labelEn}
-              <span className="seg-en">{lang === 'th' ? meta.labelEn : meta.labelTh}</span>
-            </button>
-          )
-        })}
-      </div>
-      <p className="difficulty-note">
-        {t(lang, `blurb.${current}`, {
-          tiles: DIFFICULTY_META[current].tiles,
-          layers: DIFFICULTY_META[current].layers,
-        })}
-      </p>
-    </div>
   )
 }

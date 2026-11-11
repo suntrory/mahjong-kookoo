@@ -1,7 +1,7 @@
-import react from '@vitejs/plugin-react'
+import vinext from 'vinext'
 import { defineConfig } from 'vite'
 
-// https://vite.dev/config/
+// vinext auto-detects ./app (App Router) and loads next.config.ts
 export default defineConfig({
-  plugins: [react()],
+  plugins: [vinext()],
 })
