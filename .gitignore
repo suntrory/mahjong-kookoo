@@ -30,3 +30,7 @@ dist-ssr
 .next
 .vinext
 next-env.d.ts
+
+# hosted build output (Nitro)
+.vercel
+.output
