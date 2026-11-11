@@ -4,7 +4,7 @@
 # Stage 1 — build (Node) : typecheck + Vinext build (RSC + SSR + client)
 # next.config.ts sets output: 'standalone' → dist/standalone/
 # ------------------------------------------------------------------
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -17,7 +17,7 @@ RUN npm run build
 # Stage 2 — runtime (Node) : เสิร์ฟด้วย standalone server ของ Vinext
 # รันด้วย user node (uid 1000), port 8080
 # ------------------------------------------------------------------
-FROM node:22-alpine AS runtime
+FROM node:24-alpine AS runtime
 
 LABEL org.opencontainers.image.title="mahjong-kookoo" \
       org.opencontainers.image.description="Mahjong Solitaire on Vinext — 3 levels, hints, verified solvable deals" \

@@ -7,11 +7,12 @@ services:
     container_name: mahjong-web
     restart: unless-stopped
     ports:
-      - "${WEB_PORT:-8090}:8080"
+      - "${WEB_PORT:-8090}:5555"
     environment:
       TZ: Asia/Bangkok
+      PORT: '5555'
     healthcheck:
-      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:8080/healthz']
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:5555/healthz']
       interval: 30s
       timeout: 3s
       retries: 3
